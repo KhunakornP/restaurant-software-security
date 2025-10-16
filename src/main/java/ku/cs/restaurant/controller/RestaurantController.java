@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class RestaurantController {
@@ -28,5 +30,10 @@ public class RestaurantController {
     @PostMapping("/restaurants")
     public Restaurant create(@RequestBody Restaurant restaurant){
         return service.create(restaurant);
+    }
+
+    @GetMapping("/restaurants/{id}")
+    public Restaurant getRestaurantById(@PathVariable UUID id) {
+        return service.getRestaurantById(id);
     }
 }

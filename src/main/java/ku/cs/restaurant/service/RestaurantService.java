@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -32,5 +33,9 @@ public class RestaurantService {
         restaurant.setCreatedAt(Instant.now());
         Restaurant record = repository.save(restaurant);
         return record;
+    }
+
+    public Restaurant getRestaurantById(UUID id){
+        return repository.findById(id).get();
     }
 }
