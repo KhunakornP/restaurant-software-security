@@ -51,4 +51,10 @@ public class RestaurantService {
         return record;
     }
 
+    public Restaurant delete(UUID id) {
+        Restaurant record = repository.findById(id).get();
+        repository.deleteById(id);
+        return record;
+    }
+
 }
