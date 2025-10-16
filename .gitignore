@@ -1,0 +1,48 @@
+# Compiled class files
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+out/
+*.log
+!gradle-wrapper.jar # Keep the wrapper JAR if using Gradle wrapper
+
+# IDE specific files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# Log files
+*.log
+
+# Temporary files
+*~
+*.bak
+*.swp
+
+# Env file
+.env
