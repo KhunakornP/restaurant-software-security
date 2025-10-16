@@ -49,5 +49,15 @@ public class RestaurantController {
         return service.delete(id);
     }
 
+    @GetMapping("/restaurants/name/{name}")
+    public Restaurant getRestaurantByName(@PathVariable String name) {
+        return service.getRestaurantByName(name);
+    }
+
+
+    @GetMapping("/restaurants/location/{location}")
+    public List<Restaurant> getRestaurantByLocation(@PathVariable String location) {
+        return service.getRestaurantByLocation(location);
+    }
 
 }
