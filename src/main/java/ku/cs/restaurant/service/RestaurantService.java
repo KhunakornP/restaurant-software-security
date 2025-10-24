@@ -4,6 +4,8 @@ package ku.cs.restaurant.service;
 import ku.cs.restaurant.entities.Restaurant;
 import ku.cs.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -24,8 +26,8 @@ public class RestaurantService {
         this.repository = repository;
     }
 
-    public List<Restaurant> getAll() {
-        return repository.findAll();
+    public Page<Restaurant> getRestaurantPage(PageRequest pageRequest){
+        return repository.findAll(pageRequest);
     }
 
 

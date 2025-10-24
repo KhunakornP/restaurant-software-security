@@ -4,14 +4,11 @@ import ku.cs.restaurant.dto.RestaurantRequest;
 import ku.cs.restaurant.entities.Restaurant;
 import ku.cs.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -29,8 +26,14 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public List<Restaurant> getAllRestaurants() {
-        return service.getAll();
+    public Page<Restaurant> getAllRestaurants(
+            @RequestParam(value = "offset", required = false) Integer offset,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", required = false) String sortBy) {
+        if(null == offset) offset = 0;
+        if(null == pageSize) pageSize = 10;
+        if(StringUtils.isEmpty(sortBy)) sortBy ="name";
+        return service.getRestaurantPage(PageRequest.of(offset, pageSize, Sort.by(sortBy)));
     }
 
     @PostMapping("/restaurants")
