@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
 
 
