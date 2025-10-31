@@ -1,5 +1,6 @@
 package ku.cs.restaurant.controller;
 
+import jakarta.validation.Valid;
 import ku.cs.restaurant.dto.RestaurantRequest;
 import ku.cs.restaurant.entities.Restaurant;
 import ku.cs.restaurant.service.RestaurantService;
@@ -37,7 +38,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/restaurants")
-    public Restaurant create(@RequestBody RestaurantRequest restaurant_dto){
+    public Restaurant create(@Valid  @RequestBody RestaurantRequest restaurant_dto){
         Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurant_dto.getName());
         restaurant.setRating(restaurant_dto.getRating());
@@ -48,28 +49,28 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants/{id}")
-    public Restaurant getRestaurantById(@PathVariable UUID id) {
+    public Restaurant getRestaurantById(@Valid @PathVariable UUID id) {
         return service.getRestaurantById(id);
     }
 
     @PutMapping("/restaurants")
-    public Restaurant update(@RequestBody Restaurant restaurant) {
+    public Restaurant update(@Valid @RequestBody Restaurant restaurant) {
         return service.update(restaurant);
     }
 
     @DeleteMapping("/restaurants/{id}")
-    public Restaurant delete(@PathVariable UUID id) {
+    public Restaurant delete(@Valid @PathVariable UUID id) {
         return service.delete(id);
     }
 
     @GetMapping("/restaurants/name/{name}")
-    public Restaurant getRestaurantByName(@PathVariable String name) {
+    public Restaurant getRestaurantByName(@Valid @PathVariable String name) {
         return service.getRestaurantByName(name);
     }
 
 
     @GetMapping("/restaurants/location/{location}")
-    public List<Restaurant> getRestaurantByLocation(@PathVariable String location) {
+    public List<Restaurant> getRestaurantByLocation(@Valid @PathVariable String location) {
         return service.getRestaurantByLocation(location);
     }
 

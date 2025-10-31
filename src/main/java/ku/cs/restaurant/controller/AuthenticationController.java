@@ -1,5 +1,6 @@
 package ku.cs.restaurant.controller;
 
+import jakarta.validation.Valid;
 import ku.cs.restaurant.dto.LoginRequest;
 import ku.cs.restaurant.dto.SignupRequest;
 import ku.cs.restaurant.security.JwtUtil;
@@ -33,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody LoginRequest request) {
+    public String authenticateUser(@Valid @RequestBody LoginRequest request) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
@@ -49,7 +50,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody SignupRequest request) {
+    public String registerUser(@Valid @RequestBody SignupRequest request) {
 
 
         if (userService.userExists(request.getUsername()))
