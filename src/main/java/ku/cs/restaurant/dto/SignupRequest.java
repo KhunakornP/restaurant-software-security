@@ -1,8 +1,12 @@
 package ku.cs.restaurant.dto;
 
 
+import jakarta.validation.constraints.Size;
+
 public class SignupRequest {
+    @Size(min = 4, message = "Username must contain at least 4 characters")
     private String username;
+    @Size(min = 8, message = "Password must contain at least 8 characters")
     private String password;
 
     public String getUsername() {
