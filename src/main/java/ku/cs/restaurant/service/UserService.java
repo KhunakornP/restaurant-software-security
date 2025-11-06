@@ -1,10 +1,13 @@
 package ku.cs.restaurant.service;
 
 
+import jakarta.persistence.EntityExistsException;
 import ku.cs.restaurant.dto.SignupRequest;
 import ku.cs.restaurant.entities.User;
 import ku.cs.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,8 @@ public class UserService {
 
 
     public void createUser(SignupRequest request) {
+        if (userExists(request.getUsername()))
+            throw new EntityExistsException("User with the username already exists.");
         User dao = new User();
         dao.setUsername(request.getUsername());
         dao.setPassword(encoder.encode(request.getPassword()));
