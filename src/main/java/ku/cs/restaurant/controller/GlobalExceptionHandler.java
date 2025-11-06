@@ -1,6 +1,9 @@
 package ku.cs.restaurant.controller;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -41,5 +44,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<String> handleSecurityExceptions(
+            SecurityException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<String> handleMalformedJwtExceptions(
+            MalformedJwtException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handleExpiredJwtExceptions(
+            ExpiredJwtException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    public ResponseEntity<String> handleUnsupportedJwtExceptions(
+            UnsupportedJwtException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentExceptions(
+            IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }
