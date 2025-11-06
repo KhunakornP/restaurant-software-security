@@ -39,13 +39,7 @@ public class RestaurantController {
 
     @PostMapping("/restaurants")
     public Restaurant create(@Valid  @RequestBody RestaurantRequest restaurant_dto){
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurant_dto.getName());
-        restaurant.setRating(restaurant_dto.getRating());
-        restaurant.setLocation(restaurant_dto.getLocation());
-
-        restaurant.setCreatedAt(  Instant.now()  );
-        return service.create(restaurant);
+        return service.create(restaurant_dto);
     }
 
     @GetMapping("/restaurants/{id}")

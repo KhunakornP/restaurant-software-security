@@ -6,6 +6,9 @@ import ku.cs.restaurant.dto.SignupRequest;
 import ku.cs.restaurant.security.JwtUtil;
 import ku.cs.restaurant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.authentication.AuthenticationManager;
+
+import java.net.http.HttpResponse;
 
 
 @RestController
@@ -34,7 +39,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public String authenticateUser(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginRequest request) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
@@ -45,20 +50,20 @@ public class AuthenticationController {
                 );
         UserDetails userDetails =
                 (UserDetails) authentication.getPrincipal();
-        return jwtUtils.generateToken(userDetails.getUsername());
+        return ResponseEntity.ok( jwtUtils.generateToken(userDetails.getUsername()));
     }
 
 
     @PostMapping("/signup")
-    public String registerUser(@Valid @RequestBody SignupRequest request) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody SignupRequest request) {
 
 
         if (userService.userExists(request.getUsername()))
-            return "Error: Username is already taken!";
+            return new ResponseEntity<>( "Error: Username is already taken!", HttpStatus.BAD_REQUEST);
 
 
         userService.createUser(request);
-        return "User registered successfully!";
+        return new ResponseEntity<>("User registered successfully!", HttpStatus.OK);
     }
 }
 

@@ -1,6 +1,9 @@
 package ku.cs.restaurant.service;
 
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import ku.cs.restaurant.dto.RestaurantRequest;
 import ku.cs.restaurant.entities.Restaurant;
 import ku.cs.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -31,14 +35,30 @@ public class RestaurantService {
     }
 
 
-    public Restaurant create(Restaurant restaurant) {
+    public Restaurant create(RestaurantRequest request) {
+        if (repository.existsByName(request.getName()))
+            throw new EntityExistsException("Restaurant name already exists");
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(request.getName());
+        restaurant.setRating(request.getRating());
+        restaurant.setLocation(request.getLocation());
+        restaurant.setCreatedAt(  Instant.now()  );
         restaurant.setCreatedAt(Instant.now());
         Restaurant record = repository.save(restaurant);
         return record;
     }
 
+    public Restaurant getRestaurantByName(String name) {
+        return repository.findByName(name).orElseThrow(() ->
+                new EntityNotFoundException("Restaurant not found"));
+    }
+
+
     public Restaurant getRestaurantById(UUID id){
-        return repository.findById(id).get();
+        Optional<Restaurant> result = repository.findById(id);
+        if (result.isPresent())
+            return repository.findById(id).get();
+        throw new EntityNotFoundException("Restaurant not found");
     }
 
     public Restaurant update(Restaurant requestBody) {
@@ -58,11 +78,6 @@ public class RestaurantService {
         repository.deleteById(id);
         return record;
     }
-
-    public Restaurant getRestaurantByName(String name) {
-        return repository.findByName(name);
-    }
-
 
     public List<Restaurant> getRestaurantByLocation(String location) {
         return repository.findByLocation(location);
