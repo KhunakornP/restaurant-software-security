@@ -42,6 +42,7 @@ Thumbs.db # Windows specific
 
 # Log files
 *.log
+log/
 
 # Temporary files
 *~
