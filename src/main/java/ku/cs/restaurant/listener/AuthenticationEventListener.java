@@ -35,7 +35,7 @@ public class AuthenticationEventListener {
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent event) {
         User user = (User) event.getAuthentication().getPrincipal();
-        logger.info("{} has successfully logged in at {}", user.getUsername(), Instant.now());
+        logger.info("{}, Role: {} has successfully logged in at {}", user.getUsername(), user.getAuthorities().toString(), Instant.now());
     }
 
 
